@@ -5,11 +5,12 @@ export default function AddTask({ onAddTask }) {
   return (
     <>
       <input
-        placeholder="Add task"
+        placeholder="Add New"
         value={text}
         onChange={e => setText(e.target.value)}
-      /> &nbsp;&nbsp;
-      <button className="btnadd" onClick={() => {
+      />
+      &nbsp;&nbsp;&nbsp;
+      <button  className="btnadd" onClick={() => {
         setText('');
         onAddTask(text);
       }}>Add</button>

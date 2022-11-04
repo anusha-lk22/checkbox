@@ -1,22 +1,46 @@
 import { useState } from "react";
 
-const CheckList = ({ tasks, onDeleteTask }) => {
+export default function CheckList({ tasks, onChangeTask, onDeleteTask }) {
   return (
     <ul>
       {tasks.map((task) => (
         <li key={task.id}>
-          <Task task={task}
-          onDelete={onDeleteTask} />
+          <TaskEdit task={task} onChange={onChangeTask} onDelete={onDeleteTask} />
         </li>
       ))}
     </ul>
   );
 }
 
-function Task({ task, onChange, onDelete }) {
+function TaskEdit({ task, onChange, onDelete }) {
+  const [isEditing, setIsEditing] = useState(false);
+  let taskValue;
+  if (isEditing) {
+    taskValue = (
+      <>
+        <input
+          value={task.text}
+          onChange={(e) => {
+            onChange({
+              ...task,
+              text: e.target.value
+            });
+          }}
+        />
+        <button onClick={() => setIsEditing(false)}>Save</button>
+      </>
+    );
+  } else {
+    taskValue = (
+      <>
+        {task.text}
+        <button onClick={() => setIsEditing(true)}>Edit</button>
+      </>
+    );
+  }
   return (
-<label>
-      <input class="padding"
+    <label>
+      <input
         type="checkbox"
         checked={task.done}
         onChange={(e) => {
@@ -26,9 +50,8 @@ function Task({ task, onChange, onDelete }) {
           });
         }}
       />
-      {task.text}&nbsp;&nbsp;&nbsp;
-      <button onClick={() => onDelete(task.id)}>Delete</button>
+      {taskValue}
+      <button className="deletebtn" onClick={() => onDelete(task.id)}>Delete</button>
     </label>
   );
 }
-export default CheckList;

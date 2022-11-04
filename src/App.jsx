@@ -1,48 +1,35 @@
 import { useReducer } from 'react';
 import AddTask from './AddTask';
 import CheckList from './CheckList';
-import './App.css';
-const App = () => {
-    const [tasks, dispatch] = useReducer(reducer, initialState);
-    function handleAddTask(text) {
-      dispatch({
-        type: 'add',
-        id: nextId++,
-        text: text,
-      });
-    }
-      function handleDeleteTask(taskId) {
-        dispatch({
-          type: 'delete',
-          id: taskId
-        });
-      }
-       return (
-    <>
-      <h1 style={{background: 'blue', color: 'white'}}>todo list</h1>
-      <AddTask
-        onAddTask={handleAddTask}
-      />
-      <CheckList
-        tasks={tasks}
-        onDeleteTask={handleDeleteTask}
-      />
-          </>
-  );
-  };
+import './App.css'
 
-function reducer(state, action) {
+
+let nextId = 2;
+const initialTasks = [
+  { id: 0, text: 'javascript', done: false },
+  { id: 1, text: 'html', done: false },
+ 
+];
+function reducer(tasks, action) {
   switch (action.type) {
     case 'add': {
-      return [...state, {
+      return [...tasks, {
         id: action.id,
         text: action.text,
         done: false
       }];
-      
+    }
+    case 'edit': {
+      return tasks.map(t => {
+        if (t.id === action.task.id) {
+          return action.task;
+        } else {
+          return t;
+        }
+      });
     }
     case 'delete': {
-      return state.filter(t => t.id !== action.id);
+      return tasks.filter(t => t.id !== action.id);
     }
     default: {
       throw Error('Unknown action: ' + action.type);
@@ -50,11 +37,46 @@ function reducer(state, action) {
   }
 }
 
-  let nextId = 3;
-const initialState = [
-  { id: 0, text: 'javascript', done: true },
-  { id: 1, text: 'html', done: false },
-  { id: 2, text: 'php', done: false }
-];
-export default App;
- 
+export default function App() {
+  const [tasks, dispatch] = useReducer(
+    reducer,
+    initialTasks
+  );
+
+  function handleAddTask(text) {
+    dispatch({
+      type: 'add',
+      id: nextId++,
+      text: text,
+    });
+  }
+
+  function handleChangeTask(task) {
+    dispatch({
+      type: 'edit',
+      task: task
+    });
+  }
+
+  function handleDeleteTask(taskId) {
+    dispatch({
+      type: 'delete',
+      id: taskId
+    });
+  }
+
+  return (
+    <>
+      <h1 style={{background: 'pink', color:'white', padding: '5px'}}>TODO LIST</h1>
+      <AddTask
+        onAddTask={handleAddTask}
+      />
+      <CheckList
+        tasks={tasks}
+        onChangeTask={handleChangeTask}
+        onDeleteTask={handleDeleteTask}
+      />
+    </>
+  );
+}
+
