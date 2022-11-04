@@ -2,7 +2,6 @@ import { useReducer } from 'react';
 import AddTask from './AddTask';
 import CheckList from './CheckList';
 import './App.css';
-import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 const App = () => {
     const [tasks, dispatch] = useReducer(reducer, initialState);
     function handleAddTask(text) {
@@ -28,10 +27,7 @@ const App = () => {
         tasks={tasks}
         onDeleteTask={handleDeleteTask}
       />
-      <span>
-    <Glyphicon glyph="search"/>
- </span>
-    </>
+          </>
   );
   };
 
