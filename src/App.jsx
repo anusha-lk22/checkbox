@@ -2,8 +2,6 @@ import { useReducer } from 'react';
 import AddTask from './AddTask';
 import CheckList from './CheckList';
 import './App.css'
-
-
 let nextId = 2;
 const initialTasks = [
   { id: 0, text: 'javascript', done: false },
@@ -67,7 +65,7 @@ export default function App() {
 
   return (
     <>
-      <h1 style={{background: 'pink', color:'white', padding: '5px'}}>TODO LIST</h1>
+      <h1 className="bg-pink-400 text-white p-5 rounded-xl">TODO LIST</h1>
       <AddTask
         onAddTask={handleAddTask}
       />

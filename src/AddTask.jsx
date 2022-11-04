@@ -10,7 +10,7 @@ export default function AddTask({ onAddTask }) {
         onChange={e => setText(e.target.value)}
       />
       &nbsp;&nbsp;&nbsp;
-      <button  className="btnadd" onClick={() => {
+      <button  className="bg-orange-500" onClick={() => {
         setText('');
         onAddTask(text);
       }}>Add</button>

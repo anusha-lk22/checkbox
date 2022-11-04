@@ -34,7 +34,7 @@ function TaskEdit({ task, onChange, onDelete }) {
     taskValue = (
       <>
         {task.text}
-        <button onClick={() => setIsEditing(true)}>Edit</button>
+        <button className="bg-blue-200 rounded-lg" onClick={() => setIsEditing(true)}>Edit</button>
       </>
     );
   }
@@ -51,7 +51,7 @@ function TaskEdit({ task, onChange, onDelete }) {
         }}
       />
       {taskValue}
-      <button className="deletebtn" onClick={() => onDelete(task.id)}>Delete</button>
+      <button className="bg-red-200 rounded-lg" onClick={() => onDelete(task.id)}>Delete</button>
     </label>
   );
 }
