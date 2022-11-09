@@ -5,53 +5,55 @@ export default function CheckList({ tasks, onChangeTask, onDeleteTask }) {
     <ul>
       {tasks.map((task) => (
         <li key={task.id}>
-          <TaskEdit task={task} onChange={onChangeTask} onDelete={onDeleteTask} />
+          <TaskEdit
+            task={task}
+            onChange={onChangeTask}
+            onDelete={onDeleteTask}
+          />
         </li>
       ))}
     </ul>
   );
 }
-
 function TaskEdit({ task, onChange, onDelete }) {
   const [isEditing, setIsEditing] = useState(false);
-  let taskValue;
-  if (isEditing) {
-    taskValue = (
-      <>
-        <input
-          value={task.text}
-          onChange={(e) => {
-            onChange({
-              ...task,
-              text: e.target.value
-            });
-          }}
-        />
-        <button onClick={() => setIsEditing(false)}>Save</button>
-      </>
-    );
-  } else {
-    taskValue = (
-      <>
-        {task.text}
-        <button className="bg-blue-200 rounded-lg" onClick={() => setIsEditing(true)}>Edit</button>
-      </>
-    );
-  }
   return (
     <label>
       <input
         type="checkbox"
-        checked={task.done}
+        checked={task.checked}
         onChange={(e) => {
           onChange({
             ...task,
-            done: e.target.checked
+            checked: e.target.checked,
           });
         }}
       />
-      {taskValue}
-      <button className="bg-red-200 rounded-lg" onClick={() => onDelete(task.id)}>Delete</button>
+      {isEditing ? (
+        <input type="text"
+          value={task.name}
+          onChange={(e) => {
+            onChange({
+              ...task,
+              name: e.target.value,
+            });
+          }}
+        />
+      ) : (
+        <span>{task.name}</span>
+      )}
+      <button
+        className="bg-blue-200 rounded-lg"
+        onClick={() => setIsEditing(!isEditing)}
+      >
+        {isEditing ? "Save" : "Edit"}
+      </button>
+      <button
+        className="bg-red-200 rounded-lg"
+        onClick={() => onDelete(task.id)}
+      >
+        Delete
+      </button>
     </label>
   );
 }
